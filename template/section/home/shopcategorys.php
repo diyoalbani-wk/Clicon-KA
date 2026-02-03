@@ -1,30 +1,7 @@
 <?php
-$categories = [
-    [
-        'image' => 'asset/src/images/tv.png',
-        'name' => 'Computer & Laptop'
-    ],
-    [
-        'image' => 'asset/src/images/Image (9).png',
-        'name' => 'Smartphone'
-    ],
-    [
-        'image' => 'asset/src/images/Image (10).png',
-        'name' => 'Headphone'
-    ],
-    [
-        'image' => 'asset/src/images/ky.png',
-        'name' => 'Accessories'
-    ],
-    [
-        'image' => 'asset/src/images/Image (11).png',
-        'name' => 'Camera & Photo'
-    ],
-    [
-        'image' => 'asset/src/images/Image (12).png',
-        'name' => 'Tv & Homes'
-    ],
-];
+include __DIR__ . '/../../../config/database.php';
+
+$categories = $db->query("SELECT * FROM categories ORDER BY id ASC");
 ?>
 
 <section class="container mx-auto">
@@ -47,14 +24,14 @@ $categories = [
         </button>
 
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
-            <?php foreach ($categories as $category): ?>
+            <?php while ($category = $categories->fetch_assoc()): ?>
                 <div class="bg-white border rounded-md p-4 text-center hover:shadow transition">
                     <img src="<?= $category['image']; ?>" class="mx-auto mb-3">
                     <p class="text-sm font-semibold text-gray-700">
                         <?= $category['name']; ?>
                     </p>
                 </div>
-            <?php endforeach; ?>
+            <?php endwhile; ?>
         </div>
 
     </div>

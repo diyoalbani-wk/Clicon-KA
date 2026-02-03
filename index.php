@@ -1,3 +1,19 @@
+<?php
+    session_start();
+    
+    if (!isset($_SESSION["is_login"]) || $_SESSION["is_login"] !== true) {
+    header("Location: login.php");
+    exit;
+    }
+    
+    if(isset($_POST["logout"])){
+        echo "test";
+        session_unset();
+        session_destroy();
+        header("location: login.php");
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <?php 
@@ -37,23 +53,23 @@ include __DIR__ . '/asset/src/components/head.php'?>
 <!-- START CONTENT -->
 <?php
 
-define('BASE_PATH', __DIR__);
+    define('BASE_PATH', __DIR__);
 
-include BASE_PATH . '/template/section/home/hero.php';
-include BASE_PATH . '/template/section/home/beast.php';
-include BASE_PATH . '/template/section/home/shopcategorys.php';
-include BASE_PATH . '/template/section/home/featured.php';
-include BASE_PATH . '/template/section/home/intro.php';
-include BASE_PATH . '/template/section/home/accessories.php';
-include BASE_PATH . '/template/section/home/mackbook.php';
-include BASE_PATH . '/template/section/home/flashsale.php';
-include BASE_PATH . '/template/section/home/news.php';
-include BASE_PATH . '/template/section/home/suscribe.php';
+    include BASE_PATH . '/template/section/home/hero.php';
+    include BASE_PATH . '/template/section/home/beast.php';
+    include BASE_PATH . '/template/section/home/shopcategorys.php';
+    include BASE_PATH . '/template/section/home/featured.php';
+    include BASE_PATH . '/template/section/home/intro.php';
+    include BASE_PATH . '/template/section/home/accessories.php';
+    include BASE_PATH . '/template/section/home/mackbook.php';
+    include BASE_PATH . '/template/section/home/flashsale.php';
+    include BASE_PATH . '/template/section/home/news.php';
+    include BASE_PATH . '/template/section/home/suscribe.php';
 
 ?>
 <!-- END CONTENT -->
 
-
 <?php include BASE_PATH . '/asset/src/components/footer.php'?>
+
 </body>
 </html>

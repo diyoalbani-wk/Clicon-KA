@@ -1,79 +1,15 @@
 <?php
+include __DIR__ . '/../../../config/database.php';
+
 $badge_config = [
     'hot'      => ['text' => 'HOT',      'class' => 'bg-red-500'],
     'sale'     => ['text' => 'SALE',     'class' => 'bg-green-500'],
     'best'     => ['text' => 'BEST DEAL', 'class' => 'bg-blue-400'],
-    'discount' => ['text' => '25% OFF',      'class' => 'bg-yellow-400'],
+    'discount' => ['text' => '25% OFF',  'class' => 'bg-yellow-400'],
 ];
 
-$products = [
-    [
-        'title'      => 'TOZO T6 True Wireless Earbuds Bluetooth Headphon.',
-        'price'      => '$70',
-        'image'      => 'asset/src/images/Tozo.png',
-        'rating'     => 5,
-        'reviews'    => 738,
-        'badge_type' => 'hot',
-    ],
-    [
-        'title'      => 'Samsung Electronics Samsung Galexy S21 5G',
-        'price'      => '$2,300',
-        'image'      => 'asset/src/images/image (2).png',
-        'rating'     => 4,
-        'reviews'    => 536,
-        'badge_type' => null,
-    ],
-     [
-        'title'      => 'Amazon Basics High-Speed HDMI Cable (18 Gbps, 4K/6...',
-        'price'      => '$80',
-        'image'      => 'asset/src/images/ac.png',
-        'rating'     => 5,
-        'reviews'    => 423,
-        'badge_type' => 'best',
-    ],
-    [
-        'title'      => 'Portable Wshing Machine, 11lbs capacity Model 18NMF..',
-        'price'      => '$1,500',
-        'image'      => 'asset/src/images/earphoneat.png',
-        'rating'     => 4,
-        'reviews'    => 816,
-        'badge_type' => '',
-    ],
-     [
-        'title'      => 'Wired Over-Ear Gaming Headphones with USB',
-        'price'      => '$70',
-        'image'      => 'asset/src/images/image (6).png',
-        'rating'     => 5,
-        'reviews'    => 647,
-        'badge_type' => '',
-    ],
-    [
-        'title'      => 'Polaroid 57-Inch Photo/Video Tripod with Deluxe Tripod Ca...',
-        'price'      => '$1,200',
-        'image'      => 'asset/src/images/image (12).png',
-        'rating'     => 4,
-        'reviews'    => 877,
-        'badge_type' => 'discount',
-    ],
-     [
-        'title'      => 'Dell Optiplex 7000x7480 All-in-One Computer Monitor',
-        'price'      => '$250',
-        'image'      => 'asset/src/images/tvcategorys.png',
-        'rating'     => 5,
-        'reviews'    => 426,
-        'badge_type' => '',
-    ],
-    [
-        'title'      => '4K UHD LED Smart TV with Chromecast Built-in',
-        'price'      => '$220',
-        'image'      => 'asset/src/images/image (3).png',
-        'rating'     => 4,
-        'reviews'    => 583,
-        'badge_type' => 'sale',
-    ],
-];
+$products = $db->query("SELECT * FROM featured_products ORDER BY id ASC");
 ?>
-
 
 <section class="py-16">
   <div class="container mx-auto">
@@ -107,7 +43,6 @@ $products = [
             SHOP NOW →
           </button>
         </div>
-
 
         <div class="flex justify-end">
           <img
@@ -146,7 +81,7 @@ $products = [
         </div>
 
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-           <?php foreach ($products as $product): ?>
+           <?php while ($product = $products->fetch_assoc()): ?>
               <div class="bg-white relative border rounded-md p-4 hover:shadow-lg transition">
                   
                   <?php if (!empty($badge_config[$product['badge_type']])): 
@@ -195,7 +130,7 @@ $products = [
 
                   <p class="text-blue-600 font-semibold mt-2"><?= $product['price'] ?></p>
               </div>
-            <?php endforeach; ?>
+            <?php endwhile; ?>
         </div>
       </div>
     </div>

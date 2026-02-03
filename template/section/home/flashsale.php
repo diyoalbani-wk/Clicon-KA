@@ -1,104 +1,54 @@
 <?php
-$sections = [
-  "FLASH SALE" => [
-    [
-      "img" => "asset/src/images/7.png",
-      "title" => "Bose Sport Earbuds - Wireless Earphones",
-      "price" => "$1,500"
-    ],
-    [
-      "img" => "asset/src/images/Image (2).png",
-      "title" => "Simple Mobile 4G LTE Smartphone",
-      "price" => "$1,500"
-    ],
-    [
-      "img" => "asset/src/images/ky.png",
-      "title" => "K UHD LED Smart TV with Chromecast Built-in",
-      "price" => "$1,500"
-    ],
-  ],
+include BASE_PATH . '/config/database.php';
 
-  "BEST SELLERS" => [
-    [
-      "img" => "asset/src/images/ps.png",
-      "title" => "Samsung Electronics Samsung Galaxy S21 5G",
-      "price" => "$1,500"
-    ],
-    [
-      "img" => "asset/src/images/cctv.png",
-      "title" => "Simple Mobile 5G LTE Galaxy 12 Mini 512GB Gaming Phone",
-      "price" => "$1,500"
-    ],
-    [
-      "img" => "asset/src/images/Tozo.png",
-      "title" => "Sony DSCHX8 High Zoom Point & Shoot Camera",
-      "price" => "$1,500"
-    ],
-  ],
+$sections = [];
 
-  "TOP RATED" => [
-    [
-      "img" => "asset/src/images/Image (12).png",
-      "title" => "Portable Washing Machine, 11lbs capacity Model 18NMF.",
-      "price" => "$1,500"
-    ],
-    [
-      "img" => "asset/src/images/drone.png",
-      "title" => "Sony DSCHX8 High Zoom Point & Shoot Camera",
-      "price" => "$1,500"
-    ],
-    [
-      "img" => "asset/src/images/speaker.png",
-      "title" => "Dell Optiplex 7000x7480 All-in-One Computer Monitor",
-      "price" => "$1,500"
-    ],
-  ],
+$sectionQuery = $db->query("SELECT * FROM product_sections ORDER BY id ASC");
 
-  "NEW ARRIVAL" => [
-    [
-      "img" => "asset/src/images/Image (3).png",
-      "title" => "TOZO T6 True Wireless Earbuds Bluetooth Headphones",
-      "price" => "$1,500"
-    ],
-    [
-      "img" => "asset/src/images/8.png",
-      "title" => "JBL FLIP 4 - Waterproof Portable Bluetooth Speaker",
-      "price" => "$1,500"
-    ],
-    [
-      "img" => "asset/src/images/Image (5).png",
-      "title" => "Wyze Cam Pan v2 1080p Pan/Tilt/Zoom Wi-Fi Indoor",
-      "price" => "$1,500"
-    ],
-  ],
-];
+while ($section = $sectionQuery->fetch_assoc()) {
+
+  $items = [];
+  $itemQuery = $db->query(
+    "SELECT * FROM product_section_items WHERE section_id = " . $section['id']
+  );
+
+  while ($item = $itemQuery->fetch_assoc()) {
+    $items[] = $item;
+  }
+
+  $sections[] = [
+    'title' => $section['section_title'],
+    'items' => $items
+  ];
+}
 ?>
-
 
 <section class="container mx-auto py-16 mt-4">
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
-  <?php foreach ($sections as $sectionTitle => $products): ?>
-    <div>
-      <h3 class="font-semibold mb-4"><?= $sectionTitle ?></h3>
+    <?php foreach ($sections as $section): ?>
+      <div>
+        <h3 class="font-semibold mb-4">
+          <?= $section['title'] ?>
+        </h3>
 
-      <div class="space-y-4">
-        <?php foreach ($products as $item): ?>
-          <div class="border rounded-lg p-3 flex gap-3">
-            <img src="<?= $item['img'] ?>" class="w-14" alt="">
-            <div>
-              <p class="text-sm leading-snug">
-                <?= $item['title'] ?>
-              </p>
-              <p class="text-blue-600 font-semibold">
-                <?= $item['price'] ?>
-              </p>
+        <div class="space-y-4">
+          <?php foreach ($section['items'] as $item): ?>
+            <div class="border rounded-lg p-3 flex gap-3">
+              <img src="<?= $item['image'] ?>" class="w-14" alt="">
+              <div>
+                <p class="text-sm leading-snug">
+                  <?= $item['title'] ?>
+                </p>
+                <p class="text-blue-600 font-semibold">
+                  <?= $item['price'] ?>
+                </p>
+              </div>
             </div>
-          </div>
-        <?php endforeach; ?>
+          <?php endforeach; ?>
+        </div>
       </div>
-    </div>
-  <?php endforeach; ?>
+    <?php endforeach; ?>
 
-</div>
+  </div>
 </section>

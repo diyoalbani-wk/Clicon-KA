@@ -1,71 +1,88 @@
+<?php
+include __DIR__ . '/../../../config/database.php'; 
+
+$sql = "SELECT * FROM hero";
+$result = $db->query($sql);
+
+$hero = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $hero[$row['type']] = $row;
+    }
+}
+?>
+
 <section class="container mx-auto py-10">
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
     <div class="lg:col-span-2 bg-gray-100 rounded-xl p-8 flex flex-col md:flex-row items-center justify-between">
       <div class="max-w-md text-center md:text-left">
         <p class="text-blue-500 text-sm uppercase font-semibold mb-2">
-          The best place to play
+          <?= $hero['xbox']['subtitle'] ?>
         </p>
         <h2 class="text-3xl font-bold mb-4">
-          Xbox Consoles
+          <?= $hero['xbox']['title'] ?>
         </h2>
         <p class="text-gray-600 mb-6">
-          Save up to 50% on select Xbox games. Get <br> 3 months of PC Game Pass for $2 USD.
+          <?= $hero['xbox']['description'] ?>
         </p>
-        <?php
-            $text = 'SHOP NOW →';
-            $href = '/shop';
 
-            include BASE_PATH . '/asset/src/components/button/shop.php';
-            ?>
+        <?php
+        $text = $hero['xbox']['button_text'];
+        $href = $hero['xbox']['button_link'];
+        include BASE_PATH . '/asset/src/components/button/shop.php';
+        ?>
       </div>
 
       <div class="relative mt-6  lg:-left-20">
-        <img src="asset/src/images/ps5.png" class="w-64" alt="">
+        <img src="<?= $hero['xbox']['image'] ?>" class="w-64" alt="">
         <span class="absolute top-0 right-0 bg-blue-500 font-bold text-2xl w-[35%] h-[30%] text-white px-4 py-2 border-4 border-white flex items-center rounded-full">
-          $299
+          <?= $hero['xbox']['price'] ?>
         </span>
       </div>
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6">
 
-      <div class="bg-black text-white rounded-xl  flex justify-between items-center p-2">
+      <div class="bg-black text-white rounded-xl flex justify-between items-center p-2">
         <div class="p-6">
-          <p class="text-yellow-400 text-xs font-semibold mb-1">SUMMER SALES</p>
+          <p class="text-yellow-400 text-xs font-semibold mb-1">
+            <?= $hero['pixel']['subtitle'] ?>
+          </p>
           <h3 class="text-lg font-bold mb-4">
-            New Google <br> Pixel 6 Pro
+            <?= $hero['pixel']['title'] ?>
           </h3>
-          <?php
-            $text = 'SHOP NOW →';
-            $href = '/shop';
 
-            include BASE_PATH . '/asset/src/components/button/shop.php';
-            ?>
+          <?php
+          $text = $hero['pixel']['button_text'];
+          $href = $hero['pixel']['button_link'];
+          include BASE_PATH . '/asset/src/components/button/shop.php';
+          ?>
         </div>
+
         <div class="relative w-[40%] top-[11%]">
-            <img src="asset/src/images/hp.png" class="rounded-br-xl" alt="">
-            <span class="bg-yellow-400 left-[45%] bottom-[80%] absolute text-black text-xs font-bold px-3 py-1 rounded">
-                29% OFF
-            </span>
+          <img src="<?= $hero['pixel']['image'] ?>" class="rounded-br-xl" alt="">
+          <span class="bg-yellow-400 left-[45%] bottom-[80%] absolute text-black text-xs font-bold px-3 py-1 rounded">
+            <?= $hero['pixel']['badge'] ?>
+          </span>
         </div>
       </div>
 
       <div class="bg-gray-100 rounded-xl p-6 flex items-center justify-between">
-        <img src="asset/src/images/earphone.png" class="w-24" alt="">
+        <img src="<?= $hero['flipbuds']['image'] ?>" class="w-24" alt="">
         <div>
           <h3 class="font-semibold mb-1">
-            Xiaomi FlipBuds Pro
+            <?= $hero['flipbuds']['title'] ?>
           </h3>
           <p class="text-blue-500 font-bold mb-4">
-            $299 USD
+            <?= $hero['flipbuds']['price'] ?>
           </p>
-          <?php
-            $text = 'SHOP NOW →';
-            $href = '/shop';
 
-            include BASE_PATH . '/asset/src/components/button/shop.php';
-            ?>
+          <?php
+          $text = $hero['flipbuds']['button_text'];
+          $href = $hero['flipbuds']['button_link'];
+          include BASE_PATH . '/asset/src/components/button/shop.php';
+          ?>
         </div>
       </div>
 
