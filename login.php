@@ -1,6 +1,6 @@
 <?php
     session_start();
-    include 'service/database.php';
+    include 'config/database.php';
 
     if (isset($_SESSION["is_login"])) {
         header("Location: index.php");

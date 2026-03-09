@@ -1,26 +1,39 @@
 <?php
-include BASE_PATH . '/config/database.php';
+  include BASE_PATH . '/config/database.php';
 
-$sections = [];
+  $sql = " SELECT s.id AS section_id, s.section_title,  i.id AS item_id, i.title AS item_title, i.price, i.image
+    FROM product_sections s
+    LEFT JOIN product_section_items i
+    ON s.id = i.section_id
+    ORDER BY s.id ASC, i.id ASC
+  ";
 
-$sectionQuery = $db->query("SELECT * FROM product_sections ORDER BY id ASC");
+  $result = $db->query($sql);
 
-while ($section = $sectionQuery->fetch_assoc()) {
+  $sections = array();
 
-  $items = [];
-  $itemQuery = $db->query(
-    "SELECT * FROM product_section_items WHERE section_id = " . $section['id']
-  );
+  while ($row = $result->fetch_assoc()) {
+      $section_id = $row['section_id'];
 
-  while ($item = $itemQuery->fetch_assoc()) {
-    $items[] = $item;
+      if (!isset($sections[$section_id])) {
+          $sections[$section_id] = array(
+              'title' => $row['section_title'],
+              'items' => array()
+          );
+      }
+
+      if ($row['item_id'] != null) {
+          $sections[$section_id]['items'][] = array(
+              'id' => $row['item_id'],
+              'title' => $row['item_title'],
+              'price' => $row['price'],
+              'image' => $row['image']
+          );
+      }
   }
 
-  $sections[] = [
-    'title' => $section['section_title'],
-    'items' => $items
-  ];
-}
+  // ubah keys menjadi numeric
+  $sections = array_values($sections);
 ?>
 
 <section class="container mx-auto py-16 mt-4">
@@ -28,25 +41,24 @@ while ($section = $sectionQuery->fetch_assoc()) {
 
     <?php foreach ($sections as $section): ?>
       <div>
-        <h3 class="font-semibold mb-4">
-          <?= $section['title'] ?>
-        </h3>
+        <h3 class="font-semibold mb-4"><?= $section['title'] ?></h3>
 
-        <div class="space-y-4">
-          <?php foreach ($section['items'] as $item): ?>
-            <div class="border rounded-lg p-3 flex gap-3">
-              <img src="<?= $item['image'] ?>" class="w-14" alt="">
-              <div>
-                <p class="text-sm leading-snug">
-                  <?= $item['title'] ?>
-                </p>
-                <p class="text-blue-600 font-semibold">
-                  <?= $item['price'] ?>
-                </p>
+        <?php if (!empty($section['items'])): ?>
+          <div class="space-y-4">
+            <?php foreach ($section['items'] as $item): ?>
+              <div class="border rounded-lg p-3 flex gap-3">
+                <img src="<?= $item['image'] ?>" class="w-14" alt="">
+                <div>
+                  <p class="text-sm leading-snug"><?= $item['title'] ?></p>
+                  <p class="text-blue-600 font-semibold"><?= $item['price'] ?></p>
+                </div>
               </div>
-            </div>
-          <?php endforeach; ?>
-        </div>
+            <?php endforeach; ?>
+          </div>
+        <?php else: ?>
+          <p>Tidak ada item di section ini.</p>
+        <?php endif; ?>
+
       </div>
     <?php endforeach; ?>
 

@@ -1,7 +1,7 @@
 <?php
-include __DIR__ . '/../../../config/database.php';
+    include __DIR__ . '/../../../config/database.php';
 
-$categories = $db->query("SELECT * FROM categories ORDER BY id ASC");
+    $categories = $db->query("SELECT * FROM categories ORDER BY id ASC");
 ?>
 
 <section class="container mx-auto">

@@ -124,7 +124,7 @@ $products = $db->query($productsSql);
                   </a>
                   </span>
               </div>
-            </div>
+           </div>
 
             <h4 class="text-sm font-semibold text-gray-700">
               <?= $product['title'] ?>

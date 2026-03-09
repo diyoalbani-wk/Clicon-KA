@@ -4,10 +4,10 @@ include __DIR__ . '/../../../config/database.php';
 $sql = "SELECT * FROM hero";
 $result = $db->query($sql);
 
-$hero = [];
+$heroes = [];
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $hero[$row['type']] = $row;
+        $heroes[$row['type']][] = $row;
     }
 }
 ?>
@@ -15,94 +15,102 @@ if ($result->num_rows > 0) {
 <section class="container mx-auto py-10">
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-    <div class="lg:col-span-2 bg-gray-100 rounded-xl p-8 flex flex-col md:flex-row items-center justify-between">
-      <div class="max-w-md text-center md:text-left">
-        <p class="text-blue-500 text-sm uppercase font-semibold mb-2">
-          <?= $hero['xbox']['subtitle'] ?>
-        </p>
-        <h2 class="text-3xl font-bold mb-4">
-          <?= $hero['xbox']['title'] ?>
-        </h2>
-        <p class="text-gray-600 mb-6">
-          <?= $hero['xbox']['description'] ?>
-        </p>
+    <?php if(isset($heroes['xbox'])): ?>
+      <?php foreach($heroes['xbox'] as $hero): ?>
+        <div class="lg:col-span-2 bg-gray-100 rounded-xl p-8 flex flex-col md:flex-row items-center justify-between mb-6">
+          <div class="max-w-md text-center md:text-left">
+            <p class="text-blue-500 text-sm uppercase font-semibold mb-2">
+              <?= $hero['subtitle'] ?>
+            </p>
+            <h2 class="text-3xl font-bold mb-4">
+              <?= $hero['title'] ?>
+            </h2>
+            <p class="text-gray-600 mb-6">
+              <?= $hero['description'] ?>
+            </p>
 
-        <?php
-        $text = $hero['xbox']['button_text'];
-        $href = $hero['xbox']['button_link'];
-        include BASE_PATH . '/asset/src/components/button/shop.php';
-        ?>
-      </div>
+            <?php
+            $text = $hero['button_text'];
+            $href = $hero['button_link'];
+            include BASE_PATH . '/asset/src/components/button/shop.php';
+            ?>
+          </div>
 
-      <div class="relative mt-6  lg:-left-20">
-        <img src="<?= $hero['xbox']['image'] ?>" class="w-64" alt="">
-        <span class="absolute top-0 right-0 bg-blue-500 font-bold text-2xl w-[35%] h-[30%] text-white px-4 py-2 border-4 border-white flex items-center rounded-full">
-          <?= $hero['xbox']['price'] ?>
-        </span>
-      </div>
-    </div>
+          <div class="relative mt-6 lg:-left-20">
+            <img src="<?= $hero['image'] ?>" class="w-64" alt="">
+            <span class="absolute top-0 right-0 bg-blue-500 font-bold text-2xl w-[35%] h-[30%] text-white px-4 py-2 border-4 border-white flex items-center rounded-full">
+              <?= $hero['price'] ?>
+            </span>
+          </div>
+        </div>
+      <?php endforeach; ?>
+    <?php endif; ?>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6">
+      <?php foreach(['pixel', 'flipbuds'] as $type): ?>
+        <?php if(isset($heroes[$type])): ?>
+          <?php foreach($heroes[$type] as $hero): ?>
+            <?php if($type === 'pixel'): ?>
+              <div class="bg-black text-white rounded-xl flex justify-between items-center p-2 mb-6">
+                <div class="p-6">
+                  <p class="text-yellow-400 text-xs font-semibold mb-1">
+                    <?= $hero['subtitle'] ?>
+                  </p>
+                  <h3 class="text-lg font-bold mb-4">
+                    <?= $hero['title'] ?>
+                  </h3>
 
-      <div class="bg-black text-white rounded-xl flex justify-between items-center p-2">
-        <div class="p-6">
-          <p class="text-yellow-400 text-xs font-semibold mb-1">
-            <?= $hero['pixel']['subtitle'] ?>
-          </p>
-          <h3 class="text-lg font-bold mb-4">
-            <?= $hero['pixel']['title'] ?>
-          </h3>
+                  <?php
+                  $text = $hero['button_text'];
+                  $href = $hero['button_link'];
+                  include BASE_PATH . '/asset/src/components/button/shop.php';
+                  ?>
+                </div>
 
-          <?php
-          $text = $hero['pixel']['button_text'];
-          $href = $hero['pixel']['button_link'];
-          include BASE_PATH . '/asset/src/components/button/shop.php';
-          ?>
-        </div>
+                <div class="relative w-[40%] top-[11%]">
+                  <img src="<?= $hero['image'] ?>" class="rounded-br-xl" alt="">
+                  <span class="bg-yellow-400 left-[45%] bottom-[80%] absolute text-black text-xs font-bold px-3 py-1 rounded">
+                    <?= $hero['badge'] ?>
+                  </span>
+                </div>
+              </div>
+            <?php else: ?>
+              <div class="bg-gray-100 rounded-xl p-6 flex items-center justify-between mb-6">
+                <img src="<?= $hero['image'] ?>" class="w-24" alt="">
+                <div>
+                  <h3 class="font-semibold mb-1">
+                    <?= $hero['title'] ?>
+                  </h3>
+                  <p class="text-blue-500 font-bold mb-4">
+                    <?= $hero['price'] ?>
+                  </p>
 
-        <div class="relative w-[40%] top-[11%]">
-          <img src="<?= $hero['pixel']['image'] ?>" class="rounded-br-xl" alt="">
-          <span class="bg-yellow-400 left-[45%] bottom-[80%] absolute text-black text-xs font-bold px-3 py-1 rounded">
-            <?= $hero['pixel']['badge'] ?>
-          </span>
-        </div>
-      </div>
-
-      <div class="bg-gray-100 rounded-xl p-6 flex items-center justify-between">
-        <img src="<?= $hero['flipbuds']['image'] ?>" class="w-24" alt="">
-        <div>
-          <h3 class="font-semibold mb-1">
-            <?= $hero['flipbuds']['title'] ?>
-          </h3>
-          <p class="text-blue-500 font-bold mb-4">
-            <?= $hero['flipbuds']['price'] ?>
-          </p>
-
-          <?php
-          $text = $hero['flipbuds']['button_text'];
-          $href = $hero['flipbuds']['button_link'];
-          include BASE_PATH . '/asset/src/components/button/shop.php';
-          ?>
-        </div>
-      </div>
-
+                  <?php
+                  $text = $hero['button_text'];
+                  $href = $hero['button_link'];
+                  include BASE_PATH . '/asset/src/components/button/shop.php';
+                  ?>
+                </div>
+              </div>
+            <?php endif; ?>
+          <?php endforeach; ?>
+        <?php endif; ?>
+      <?php endforeach; ?>
     </div>
   </div>
 
   <div class="hidden lg:grid grid-cols-4 mt-4 py-4 border">
     <div class="flex gap-2 border-l items-center justify-center">
-        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M35 27.7031V12.2969C34.9988 12.0743 34.939 11.8561 34.8265 11.664C34.714 11.472 34.5529 11.313 34.3594 11.2031L20.6094 3.46876C20.4241 3.36179 20.2139 3.30548 20 3.30548C19.7861 3.30548 19.5759 3.36179 19.3906 3.46876L5.64062 11.2031C5.44711 11.313 5.28599 11.472 5.17352 11.664C5.06105 11.8561 5.0012 12.0743 5 12.2969V27.7031C5.0012 27.9257 5.06105 28.144 5.17352 28.336C5.28599 28.528 5.44711 28.687 5.64062 28.7969L19.3906 36.5313C19.5759 36.6382 19.7861 36.6945 20 36.6945C20.2139 36.6945 20.4241 36.6382 20.6094 36.5313L34.3594 28.7969C34.5529 28.687 34.714 28.528 34.8265 28.336C34.939 28.144 34.9988 27.9257 35 27.7031V27.7031Z" stroke="#191C1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
         <path d="M27.6562 23.8281V15.7031L12.5 7.34375" stroke="#191C1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
         <path d="M34.8281 11.6562L20.1406 20L5.17188 11.6562" stroke="#191C1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
         <path d="M20.1406 20L20 36.6875" stroke="#191C1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <div>
-            <h1 class="font-semibold">
-                FASTED DELIVERY
-            </h1>
-            Delivery in 24/H
-        </div>
+      </svg>
+      <div>
+        <h1 class="font-semibold">FASTED DELIVERY</h1>
+        Delivery in 24/H
+      </div>
     </div>
     <div class="flex gap-2 border-l items-center justify-center">
         <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">

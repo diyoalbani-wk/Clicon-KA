@@ -1,12 +1,12 @@
 <?php
-include BASE_PATH . '/config/database.php';
+  include BASE_PATH . '/config/database.php';
 
-$result = $db->query("SELECT * FROM intro ORDER BY id ASC");
+  $result = $db->query("SELECT * FROM intro ORDER BY id ASC");
 
-$introData = [];
-while ($row = $result->fetch_assoc()) {
-    $introData[] = $row;
-}
+  $introData = [];
+  while ($row = $result->fetch_assoc()) {
+      $introData[] = $row;
+  }
 ?>
 
 <section class="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-4">

@@ -1,19 +1,20 @@
 <?php
-include BASE_PATH . '/config/database.php';
+  include BASE_PATH . '/config/database.php';
 
-$badge_config = [
-  'hot'      => ['text' => 'HOT', 'class' => 'bg-red-500'],
-  'sale'     => ['text' => 'SALE', 'class' => 'bg-green-500'],
-  'best'     => ['text' => 'BEST DEAL', 'class' => 'bg-blue-400'],
-  'discount' => ['text' => '25% OFF', 'class' => 'bg-yellow-400'],
-];
+  $badge = [
+    'hot'      => ['text' => 'HOT', 'class' => 'bg-red-500'],
+    'sale'     => ['text' => 'SALE', 'class' => 'bg-green-500'],
+    'best'     => ['text' => 'BEST DEAL', 'class' => 'bg-blue-400'],
+    'discount' => ['text' => '25% OFF', 'class' => 'bg-yellow-400'],
+  ];
 
-$result = $db->query("SELECT * FROM accessories_products ORDER BY id ASC");
+  $result = $db->query("SELECT * FROM accessories_products ORDER BY id ASC");
 
-$products = [];
-while ($row = $result->fetch_assoc()) {
-  $products[] = $row;
-}
+  $products = [];
+    while ($row = $result->fetch_assoc()) {
+    $products[] = $row;
+  }
+
 ?>
 
 <section class="py-16">
@@ -38,19 +39,19 @@ while ($row = $result->fetch_assoc()) {
         <?php foreach ($products as $product): ?>
           <div class="border rounded-md p-4 relative">
 
-            <?php if (!empty($product['badge_type']) && isset($badge_config[$product['badge_type']])): 
-              $badge = $badge_config[$product['badge_type']]; ?>
-              <span class="absolute top-3 left-3 <?= $badge['class'] ?> text-white text-xs px-2 py-1 rounded">
+            <?php if (!empty($product['badge_type']) && isset($badge[$product['badge_type']])): 
+              $badge = $badge[$product['badge_type']]; ?>
+              <span class="absolute z-20 top-3 left-3 <?= $badge['class'] ?> text-white text-xs px-2 py-1 rounded">
                 <?= $badge['text'] ?>
               </span>
             <?php endif; ?>
 
-            <div class="relative group overflow-hidden">
+            <div class="relative group overflow-hidden z-10">
               <img src="<?= $product['image'] ?>" class="mx-auto my-6 h-[160px] object-contain" />
 
               <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition"></div>
 
-              <div class="absolute inset-0 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition duration-300 z-10">
+              <div class="absolute inset-0 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition duration-300 z-20">
                   <span class="bg-orange-500 w-6 h-6 flex items-center justify-center rounded-full cursor-pointer">
                       <img src="asset/src/images/Heart.png" class="w-4" alt="Wishlist">
                   </span>

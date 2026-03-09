@@ -2,9 +2,9 @@
 include BASE_PATH . '/config/database.php';
 
 $news = [];
-$query = $db->query("SELECT * FROM latest_news ORDER BY id ASC");
+$query = mysqli_query($db, "SELECT * FROM latest_news ORDER BY id ASC");
 
-while ($row = $query->fetch_assoc()) {
+while ($row = mysqli_fetch_assoc($query)) {
   $news[] = $row;
 }
 ?>

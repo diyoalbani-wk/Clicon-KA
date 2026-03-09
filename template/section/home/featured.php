@@ -1,14 +1,14 @@
 <?php
-include __DIR__ . '/../../../config/database.php';
+  include __DIR__ . '/../../../config/database.php';
 
-$badge_config = [
-    'hot'      => ['text' => 'HOT',      'class' => 'bg-red-500'],
-    'sale'     => ['text' => 'SALE',     'class' => 'bg-green-500'],
-    'best'     => ['text' => 'BEST DEAL', 'class' => 'bg-blue-400'],
-    'discount' => ['text' => '25% OFF',  'class' => 'bg-yellow-400'],
-];
+  $badge_config = [
+      'hot'      => ['text' => 'HOT',      'class' => 'bg-red-500'],
+      'sale'     => ['text' => 'SALE',     'class' => 'bg-green-500'],
+      'best'     => ['text' => 'BEST DEAL', 'class' => 'bg-blue-400'],
+      'discount' => ['text' => '25% OFF',  'class' => 'bg-yellow-400'],
+  ];
 
-$products = $db->query("SELECT * FROM featured_products ORDER BY id ASC");
+  $products = $db->query("SELECT * FROM featured_products ORDER BY id ASC");
 ?>
 
 <section class="py-16">

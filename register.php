@@ -1,6 +1,6 @@
 <?php
     session_start();
-    include 'service/database.php';
+    include 'config/database.php';
 
     $register_message = "";
 
@@ -26,13 +26,15 @@
             if ($check->num_rows > 0) {
                 $register_message = "Email sudah digunakan";
             } else {
+                
                 $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
                 $sql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
                 $stmt = $db->prepare($sql);
                 $stmt->bind_param("sss", $username, $email, $hashedPassword);
 
                 if ($stmt->execute()) {
-                    $register_message = "Registrasi berhasil, silakan login";
+                    header("Location: login.php");
+                    exit;
                 } else {
                     $register_message = "Registrasi gagal";
                 }
@@ -40,7 +42,6 @@
         }
     }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -57,7 +58,7 @@ include __DIR__ . '/asset/src/components/head.php'?>
  <div class="flex justify-center py-16">
     <?php include __DIR__ . '/template/section/register/content.php' ?>
  </div>
-<!-- CONTENT FOOTER -->
+<!-- END CONTENT -->
 
 <?php include __DIR__ . '/asset/src/components/footer.php' ?>
 

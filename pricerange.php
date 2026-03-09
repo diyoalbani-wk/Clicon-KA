@@ -6,7 +6,6 @@
 <script src="https://cdn.tailwindcss.com"></script>
 
 <style>
-/* Slider UI */
 .range-ui {
     pointer-events: none;
     position: absolute;

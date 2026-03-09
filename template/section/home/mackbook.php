@@ -1,8 +1,8 @@
 <?php
-include BASE_PATH . '/config/database.php';
+  include BASE_PATH . '/config/database.php';
 
-$result = $db->query("SELECT * FROM mackbook_banner LIMIT 1");
-$data = $result->fetch_assoc();
+  $result = mysqli_query($db, "SELECT * FROM mackbook_banner LIMIT 1");
+  $data = mysqli_fetch_assoc($result);
 ?>
 
 <section class="container mx-auto">
